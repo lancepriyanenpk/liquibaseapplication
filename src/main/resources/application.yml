@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: liquibaseapplication
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:production}  # Default to 'development' if env variable is not set
+
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dev_database
+    username: postgres
+    password: '0000'
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-development.yaml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: testing
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test_database
+    username: postgres
+    password: '0000'
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-testing.yaml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: jdbc:postgresql://localhost:5432/prod_database
+    username: postgres
+    password: '0000'
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-production.yaml
